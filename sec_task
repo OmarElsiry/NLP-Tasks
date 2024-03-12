@@ -1,0 +1,30 @@
+import csv
+from nltk import word_tokenize
+from nltk.stem import PorterStemmer as p_stem
+from nltk.stem import SnowballStemmer as s_stem
+
+# Function to tokenize and stem text
+def token_and_stem(text):
+    # Tokenize the text
+    tokens = word_tokenize(text)
+    # Stem each token with porter stemmer
+    stemmed_tokens = [p_stem().stem(token) for token in tokens]
+    # Uncomment the following lines if you want to use snowball stemmer instead
+    # stemmed_tokens = [s_stem(language="english").stem(token) for token in tokens]
+    return stemmed_tokens
+
+# Process the CSV file
+def process_csv(file_path):
+    with open(file_path, 'r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+            # Assuming 'text' is the column with the text to process
+            text = row['text']
+            # Tokenize and stem the text
+            stemmed_text = token_and_stem(text)
+            print(stemmed_text)
+
+# Main execution
+if __name__ == "__main__":
+    file_path = 'text.csv'
+    process_csv(file_path)
